@@ -3,11 +3,20 @@
 /* 
 **	is toCmp == à l'un des éléments de l'interval chunksize contenu ds *chunk
 */
-int chunkCmp(int toCmp, int chunkSize, int *chunkSort)
+int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending)
 {
+	printf("chunkSize %d, ascending %d\n", chunkSize, ascending);
 	while (chunkSize--)
-		if (chunkSort[chunkSize] == toCmp)
-			return 1;
+		if (ascending)
+		{
+			if (*chunkSort++ == toCmp)
+				return 1;
+		}
+		else
+		{
+			if (*chunkSort-- == toCmp)
+				return 1;
+		}
 	return 0;
 }
 
@@ -21,12 +30,12 @@ int nearestPopableAB(stacks *s, int chunkSize, int chunkIdx)
 	j = s->sizeA - 1;
 	node[0] = s->l_A;
 	node[1] = s->l_A->prev;
-	printf("nearestPopableAB chunkSize : %d, s->sizeA / 2 : %d\n",chunkSize, s->sizeA / 2);
+	printf("nearestPopableAB chunkSize : %d, s->sizeA / 2 : %d, chunkIdx %d\n",chunkSize, s->sizeA / 2, chunkIdx);
 	while (i <= s->sizeA / 2)
 	{
-		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx))
+		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx, 1))
 			return i;
-		if (chunkCmp(node[1]->data, chunkSize, s->tackSort + chunkIdx))
+		if (chunkCmp(node[1]->data, chunkSize, s->tackSort + chunkIdx, 1))
 			return j;
 		node[0] = node[0]->next;
 		node[1] = node[1]->prev;
@@ -60,14 +69,14 @@ int sortBA(stacks *s, int chunkSize, int chunkIdx)
 	node[1] = s->l_B->prev;
 	while (i <= s->sizeB / 2)
 	{
-		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx))
+		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx, 0))
 		{
 			rbs += i;
 			return i;
 		}
 		if (rbs)
 		{
-			if (chunkCmp(node[1]->data, chunkSize, s->tackSort + chunkIdx))
+			if (chunkCmp(node[1]->data, chunkSize, s->tackSort + chunkIdx, 0))
 			{
 				rbs -= j;
 				return j;
@@ -132,19 +141,19 @@ void midPointAlgo(stacks *s)
 		chunkIdx += chunkSize;
 	}
 	// Seconde partie de "back and forward"
-	++chunkSize;
-	while (s->sizeA != s->size)
-	{
-		while (!isSorted(s->l_A, chunkSize, 1))
-		{
+	// ++chunkSize;
+	// while (s->sizeA != s->size)
+	// {
+	// 	while (!isSorted(s->l_A, chunkSize, 1))
+	// 	{
 
-		}
-		while (!isSorted(s->l_B, chunkSize, 0))
-		{
+	// 	}
+	// 	while (!isSorted(s->l_B, chunkSize, 0))
+	// 	{
 
-		}
-		chunkSize *= 2;
-	}
+	// 	}
+	// 	chunkSize *= 2;
+	// }
 
 
 		printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);
