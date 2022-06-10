@@ -3,6 +3,9 @@
 int main(int ac, char *av[])
 {
 	stacks s;
+	for (int i = 1; i < ac; i++)
+		printf("%s, ", av[i]);
+	printf("\n");
 	init(--ac, ++av, &s);
 	// if (isSorted(&s)) // si dejà triée ne fait rien
 	// 	return (0);
@@ -27,10 +30,10 @@ void init(int ac, char *av[], stacks *s)
 	s->tack = malloc(sizeof(*s->tack) * ac);
 	s->action = malloc(sizeof(int) * 2500);
 	ft_bzero(s->action, sizeof(int)*2500);
-	for (size_t i = 0; i < 10; i++)
-	{
-		printf("%d\n", s->action[i]);
-	}
+	// for (size_t i = 0; i < 10; i++)
+	// {
+	// 	printf("%d\n", s->action[i]);
+	// }
 	
 	s->l_A = malloc(sizeof(*s->l_A) * ac);
 	s->l_B = NULL;

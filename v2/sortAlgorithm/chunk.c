@@ -6,17 +6,18 @@
 int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending)
 {
 	printf("chunkSize %d, ascending %d\n", chunkSize, ascending);
-	while (chunkSize--)
-		if (ascending)
-		{
+	if (ascending)
+	{
+		while (chunkSize--)
 			if (*chunkSort++ == toCmp)
 				return 1;
-		}
-		else
-		{
-			if (*chunkSort-- == toCmp)
+	}
+	else
+	{
+		while (chunkSize--)
+			if (*--chunkSort == toCmp)
 				return 1;
-		}
+	}
 	return 0;
 }
 
@@ -53,7 +54,7 @@ int sortAB(stacks *s, int chunkSize, int chunkIdx)
 
 }
 
-int sortBA(stacks *s, int chunkSize, int chunkIdx)
+int sortBA(stacks *s, int chunkSize, int *chunkIdx)
 {
 	int i;
 	int j;
@@ -69,16 +70,18 @@ int sortBA(stacks *s, int chunkSize, int chunkIdx)
 	node[1] = s->l_B->prev;
 	while (i <= s->sizeB / 2)
 	{
-		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx, 0))
+		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + *chunkIdx, 0))
 		{
 			rbs += i;
+			*chunkIdx -= chunkSize;
 			return i;
 		}
 		if (rbs)
 		{
-			if (chunkCmp(node[1]->data, chunkSize, s->tackSort + chunkIdx, 0))
+			if (chunkCmp(node[1]->data, chunkSize, s->tackSort + *chunkIdx, 0))
 			{
 				rbs -= j;
+				*chunkIdx -= chunkSize;
 				return j;
 			}
 			node[1] = node[1]->prev;
@@ -87,6 +90,7 @@ int sortBA(stacks *s, int chunkSize, int chunkIdx)
 		node[0] = node[0]->next;
 		++i;
 	}
+	*chunkIdx -= chunkSize;
 	return -1;
 }
 
@@ -140,20 +144,22 @@ void midPointAlgo(stacks *s)
 			popAB(s, nearestPopableAB(s, chunkSize, chunkIdx));
 		chunkIdx += chunkSize;
 	}
-	// Seconde partie de "back and forward"
-	// ++chunkSize;
-	// while (s->sizeA != s->size)
-	// {
-	// 	while (!isSorted(s->l_A, chunkSize, 1))
-	// 	{
+	// Seconde partie "back and forth"
+	++chunkSize;
+	while (chunkSize < s->size / 2 && (i = -1))
+	{
+		while (++i < chunkSize)
+			sortBA(s, chunkSize, &chunkIdx);
+		while (!isSorted(s->l_A, chunkSize, 1))
+		{
 
-	// 	}
-	// 	while (!isSorted(s->l_B, chunkSize, 0))
-	// 	{
+		}
+		while (!isSorted(s->l_B, chunkSize, 0))
+		{
 
-	// 	}
-	// 	chunkSize *= 2;
-	// }
+		}
+		chunkSize *= 2;
+	}
 
 
 		printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);

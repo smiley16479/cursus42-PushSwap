@@ -23,6 +23,9 @@ typedef struct stacks{
 	int sizeA;
 	int sizeB;
 	int idxAction;
+
+	int chunkSize;
+	int chunkIdx;
 }stacks;
 
 // utils.c
