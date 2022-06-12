@@ -1,5 +1,15 @@
 #include "utils.h"
 
+int ft_strlen(char *str)
+{
+	int i;
+
+	i = 0;
+	while (*str++)
+		++i;
+	return (i);
+}
+
 void printList(t_node *l, int size)
 {
 	for (size_t i = 0; i < size; i++) {
@@ -39,7 +49,7 @@ void writeAction(stacks *s, enum action act)
 				"pb","ra", "rb", "rr",
 				"rra", "rrb" , "rrr"
 				};
-	printf("Write Action %d (%s)\n", s->idxAction, a[act]);
+	// printf("Write Action %d (%s)\n", s->idxAction, a[act]);
 
 	if (!(s->action[s->idxAction] & 0x0F))
 	{
@@ -65,14 +75,14 @@ void readAction(stacks *s)
 				"rra", "rrb" , "rrr"
 				};
 
-	printf("readAction %d\n", s->idxAction);
+	// printf("readAction %d\n", s->idxAction);
 	i = -1;
 	while (++i <= s->idxAction && s->action[i] && !(j = 0))
 	{
 		while (++j <= e_rrr)
 			if ((s->action[i] & 0x0F) == j)
 			{
-				write(1, a[j], 3);
+				write(1, a[j], ft_strlen(a[j]));
 				// printf(" r poid faible %d (%s)\n", j, a[j]);
 			}
 		j = 0;
@@ -81,7 +91,7 @@ void readAction(stacks *s)
 		while (++j <= e_rrr)
 			if (((s->action[i] & 0xF0) >> 4) == j)
 			{
-				write(1, a[j], 3);
+				write(1, a[j], ft_strlen(a[j]));
 				// printf(" r poid fort %d (%s)\n", j, a[j]);
 			}
 		write(1, "\n", 1);

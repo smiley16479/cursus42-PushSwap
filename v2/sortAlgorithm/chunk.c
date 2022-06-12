@@ -5,7 +5,7 @@
 */
 int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending)
 {
-	printf("chunkSize %d, ascending %d\n", chunkSize, ascending);
+	// printf("chunkSize %d, ascending %d\n", chunkSize, ascending);
 	if (ascending)
 	{
 		while (chunkSize--)
@@ -31,7 +31,7 @@ int nearestPopableAB(stacks *s, int chunkSize, int chunkIdx)
 	j = s->sizeA - 1;
 	node[0] = s->l_A;
 	node[1] = s->l_A->prev;
-	printf("nearestPopableAB chunkSize : %d, s->sizeA / 2 : %d, chunkIdx %d\n",chunkSize, s->sizeA / 2, chunkIdx);
+	printf("nearestPopableAB chunkSize : %d, s->sizeA : %d, chunkIdx %d\n",chunkSize, s->sizeA, chunkIdx);
 	while (i <= s->sizeA / 2)
 	{
 		if (chunkCmp(node[0]->data, chunkSize, s->tackSort + chunkIdx, 1))
@@ -56,6 +56,7 @@ int sortAB(stacks *s, int chunkSize, int chunkIdx)
 
 int sortBA(stacks *s, int chunkSize, int *chunkIdx)
 {
+	printf("sortBA : chunkSize %d, chunkIdx %d\n", chunkSize, *chunkIdx);
 	int i;
 	int j;
 	static int pas;
@@ -135,36 +136,34 @@ void midPointAlgo(stacks *s)
 	chunkSize = s->size;
 	while ((chunkSize /= 2) && (i = -1))
 	{
-		printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);
-		printf("list A\n");
-		printList(s->l_A, s->sizeA);
-		printf("list B\n");
-		printList(s->l_B, s->sizeB);
+		// printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);
+		// printf("list A\n");
+		// printList(s->l_A, s->sizeA);
+		// printf("list B\n");
+		// printList(s->l_B, s->sizeB);
 		while (++i < chunkSize)
 			popAB(s, nearestPopableAB(s, chunkSize, chunkIdx));
 		chunkIdx += chunkSize;
 	}
+	printf("Size A : %d, chunkSize %d\n", s->sizeA, chunkSize);
 	// Seconde partie "back and forth"
-	++chunkSize;
-	while (chunkSize < s->size / 2 && (i = -1))
+/* 	while (chunkSize < s->size / 2 && (i = -1))
 	{
 		while (++i < chunkSize)
 			sortBA(s, chunkSize, &chunkIdx);
-		while (!isSorted(s->l_A, chunkSize, 1))
-		{
+		// while (!isSorted(s->l_A, chunkSize, 1))
+		// {
 
-		}
-		while (!isSorted(s->l_B, chunkSize, 0))
-		{
+		// }
+		// while (!isSorted(s->l_B, chunkSize, 0))
+		// {
 
-		}
+		// }
 		chunkSize *= 2;
-	}
-
-
-		printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);
-		printf("list A\n");
-		printList(s->l_A, s->sizeA);
-		printf("list B\n");
-		printList(s->l_B, s->sizeB);
+	} */
+		// printf("chunk size %d, chunkIdx : %d\n", chunkSize, chunkIdx);
+		// printf("list A\n");
+		// printList(s->l_A, s->sizeA);
+		// printf("list B\n");
+		// printList(s->l_B, s->sizeB);
 }

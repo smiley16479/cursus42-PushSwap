@@ -71,6 +71,7 @@ void pb(stacks *s)
 {
 	if (s->sizeA >= 1) {
 		push(&s->l_A, &s->l_B);
+		// printf("value pushed on B %d\n", s->l_A->data);
 		++s->sizeB;
 		--s->sizeA;
 		writeAction(s, e_pb);

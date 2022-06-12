@@ -3,18 +3,18 @@
 int main(int ac, char *av[])
 {
 	stacks s;
-	for (int i = 1; i < ac; i++)
+/* 	for (int i = 1; i < ac; i++)
 		printf("%s, ", av[i]);
-	printf("\n");
+	printf("\n"); */
 	init(--ac, ++av, &s);
 	// if (isSorted(&s)) // si dejà triée ne fait rien
 	// 	return (0);
-	for (int i = 0; i < s.size; i++)
+/* 	for (int i = 0; i < s.size; i++)
 		printf("%d, ", s.tackSort[i]);
-	printf("\n");
+	printf("\n"); */
 
 	midPointAlgo(&s);
-	readAction(&s);
+	// readAction(&s);
 	free(s.tack);
 	free(s.action);
 	free(s.to_free);
@@ -43,7 +43,7 @@ void init(int ac, char *av[], stacks *s)
 	if (!s->tack || !s->l_A || checkArg(av, s))
 		panicERROR();
 	sort(s->tackSort, s->size);
-	printf("ac : %d, size : %d\n", ac, s->size);
+	// printf("ac : %d, size : %d\n", ac, s->size);
 
 	s->to_free = s->l_A;
 	s->size = -1;
