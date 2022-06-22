@@ -1,5 +1,8 @@
 #include "utils.h"
 
+/* 
+** Check si un swap est possible sur la/les stack/s
+*/
 int check_A_Swap(stacks *s)
 {
 	int i;

@@ -1,10 +1,10 @@
-gen=`../tools/generator.py 100 0 100`
+gen=`../tools/generator.py 10 0 10`
 
 all:
-	gcc *.c */*.c */*/*.c  -I. -fsanitize=address -g3
+	gcc *.c */*/*.c  -I. # -I./sortAlgorithm/chunk/ -fsanitize=address -g3
 
 gen:
-	ARG= echo $(gen); \
+	export ARG= echo $(gen); \
 	echo $(ARG)
 
 test:

@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from time import sleep
 import PySimpleGUI as sg
 import colorsys
 import sys
@@ -136,57 +135,6 @@ def manip(action):
 		tmp = stacks[2].pop()
 		stacks[2].insert(0, tmp)
 
-def rewindManip(action):
-	if action == "pa" and len(stacks[2]):
-		# print("pb!")
-		tmp = stacks[1].pop(0)
-		stacks[2].insert(0, tmp)
-	if action == "pb" and len(stacks[1]):	
-		# print("pa!")
-		tmp = stacks[2].pop(0)
-		stacks[1].insert(0, tmp)
-	if action == "sa" and len(stacks[1]) > 1:
-		tmp = stacks[1][0]
-		stacks[1][0] = stacks[1][1]
-		stacks[1][1] = tmp
-	if action == "sb" and len(stacks[2]) > 1:
-		tmp = stacks[2][0]
-		stacks[2][0] = stacks[2][1]
-		stacks[2][1] = tmp
-	if action == "ss" and len(stacks[1]) > 1 and len(stacks[2]) > 1:
-		tmp = stacks[1][0]
-		stacks[1][0] = stacks[1][1]
-		stacks[1][1] = tmp
-		tmp = stacks[2][0]
-		stacks[2][0] = stacks[2][1]
-		stacks[2][1] = tmp
-	if action == "rra" and len(stacks[1]):
-		tmp = stacks[1][0]
-		stacks[1].remove(tmp)
-		stacks[1].append(tmp)
-	if action == "rrb" and len(stacks[2]):
-		tmp = stacks[2][0]
-		stacks[2].remove(tmp)
-		stacks[2].append(tmp)
-	if action == "rrr" and len(stacks[1]) and len(stacks[2]):
-		tmp = stacks[1][0]
-		stacks[1].remove(tmp)
-		stacks[1].append(tmp)
-		tmp = stacks[2][0]
-		stacks[2].remove(tmp)
-		stacks[2].append(tmp)
-	if action == "ra" and len(stacks[1]) > 1:
-		tmp = stacks[1].pop()
-		stacks[1].insert(0, tmp)
-	if action == "rb" and len(stacks[2]) > 1:
-		tmp = stacks[2].pop()
-		stacks[2].insert(0, tmp)
-	if action == "rr" and len(stacks[1]) > 1 and len(stacks[2]) > 1:
-		tmp = stacks[1].pop()
-		stacks[1].insert(0, tmp)
-		tmp = stacks[2].pop()
-		stacks[2].insert(0, tmp)	
-
 def drawStack(stack_graph, stack):
 	# clean canvas
 	stack_graph.DrawRectangle( (0, STACK_HEIGHT), (STACK_WIDTH, 0), 'black')
@@ -201,6 +149,10 @@ def drawStack(stack_graph, stack):
 			line_width=0,
 		)
 
+def refreshStackState(valueAddedToSlider):
+		values["-SLIDER-"] += valueAddedToSlider
+		window["-SLIDER-"].update(values["-SLIDER-"])
+		window['-ACTIONSTABLE-'].set_vscroll_position(values["-SLIDER-"]/ len(actions))
 # Get input to manipulate Stacks
 window.read(timeout=1)
 window.bind('<Configure>',"Event")
@@ -215,7 +167,10 @@ try:
 			window['-ACTIONSTABLE-'].update(actions)
 			moreinput = False
 except EOFError as e:
-	print("EOFError")
+	print("EOF reached")
+	window['-SLIDER-'].update(range=(0, len(actions)), value = len(actions))
+	window['-ACTIONSTABLE-'].update(actions)
+	moreinput = False
 	pass
 
 while True:
@@ -223,7 +178,7 @@ while True:
 
 	if event == sg.WIN_CLOSED:
 		break
-	# if event == "Event":
+	# if event == "Event": # On commençait à faire l'ajustement des elem au rezide de la fenetre... :
 		# print(window.size)
 		# window["-STACK_A-"].update(silent_on_error=True,  window.size)
 		# window["-STACK_B-"].update(window.size)
@@ -231,16 +186,15 @@ while True:
 		readSpeed = values["-SPIN-"]
 		print("readSpeed x", readSpeed)
 	if event == '-SLIDER-':
-		# print('event', event, 'values', values)
 		stacks[1] = [int(numeric_string) for numeric_string in sys.argv[1:]]
 		stacks[2].clear()
+		window['-ACTIONSTABLE-'].set_vscroll_position(values["-SLIDER-"]/ len(actions))
 		for i in range(int(values["-SLIDER-"])):
 			manip(actions[i][0])
 	if event == '-RW_BTN-':
 		stacks[1] = [int(numeric_string) for numeric_string in sys.argv[1:]]
 		stacks[2].clear()
-		values["-SLIDER-"] -= 1
-		window["-SLIDER-"].update(values["-SLIDER-"])
+		refreshStackState(-1)
 		for i in range(int(values["-SLIDER-"])):
 			manip(actions[i][0])
 	if event == '-FD_BTN-':
@@ -248,18 +202,14 @@ while True:
 			continue
 		stacks[1] = [int(numeric_string) for numeric_string in sys.argv[1:]]
 		stacks[2].clear()
-		values["-SLIDER-"] += 1
-		window["-SLIDER-"].update(values["-SLIDER-"])
+		refreshStackState(1)
 		for i in range(int(values["-SLIDER-"])):
 			manip(actions[i][0])
 	if event == '-PLAY_BTN-':
 		reading = not reading
 	if reading and values["-SLIDER-"] != len(actions):
-		# print("-PLAY_BTN- pressed, values['-SLIDER-'']" , values["-SLIDER-"], "timeout", 1000 / readSpeed)
 		manip(actions[int(values["-SLIDER-"])][0])
-		values["-SLIDER-"] += 1
-		window["-SLIDER-"].update(values["-SLIDER-"])
-
+		refreshStackState(1)
 # draw Stack_A & Stack_B
 	drawStack(stack_A, stacks[1])
 	drawStack(stack_B, stacks[2])

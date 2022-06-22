@@ -54,13 +54,14 @@ void push(t_node **l_a, t_node **l_b)
 void pa(stacks *s)
 {
 	if (s->sizeB >= 1) {
+		fprintf(stderr, "pa %d\n", s->l_B->data);
 		push(&s->l_B, &s->l_A);
 		++s->sizeA;
 		--s->sizeB;
 		writeAction(s, e_pa);
 	}
 	else
-		printf("pa do nothing\n");
+		fprintf(stderr, "pa do nothing\n");
 }
 
 /*
@@ -70,12 +71,12 @@ void pa(stacks *s)
 void pb(stacks *s)
 {
 	if (s->sizeA >= 1) {
+		fprintf(stderr, "pb %d\n", s->l_A->data);
 		push(&s->l_A, &s->l_B);
-		// printf("value pushed on B %d\n", s->l_A->data);
 		++s->sizeB;
 		--s->sizeA;
 		writeAction(s, e_pb);
 	}
 	else
-		printf("pb do nothing\n");
+		fprintf(stderr, "pb do nothing\n");
 }

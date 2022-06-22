@@ -15,10 +15,10 @@ int checkDuplicate(stacks *s)
 	i = 0;
 	while (i < s->size)
 	{
-		tmp = s->tack[i];
+		tmp = s->l_A[i].data;
 		j = ++i;
 		while (j < s->size)
-			if (tmp == s->tack[j++])
+			if (tmp == s->l_A[j++].data)
 				return (1);
 	}
 	return (0);
@@ -40,9 +40,8 @@ int checkArg(char *av[], stacks *s)
 				return (1);
 			++i;
 		} 
-		s->tack[s->size] = putNb(*av);
-		s->tackSort[s->size] = s->tack[s->size];
-		s->l_A[s->size].data = s->tack[s->size];
+		s->tackSort[s->size] = putNb(*av);
+		s->l_A[s->size].data = s->tackSort[s->size];
 		++s->size;
 		++av;
 	}
@@ -91,13 +90,4 @@ void sort(int *array, int size)
 			array[i] = swap;
 		}
 	}
-}
-
-void ft_bzero(void *s, int n)
-{
-	int i;
-
-	i = -1;
-	while (++i < n)
-		*(char *)s++ = 0;
 }

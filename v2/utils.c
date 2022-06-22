@@ -13,10 +13,18 @@ int ft_strlen(char *str)
 void printList(t_node *l, int size)
 {
 	for (size_t i = 0; i < size; i++) {
-		printf("prev : %p -> me(%d) : %p -> next : %p\n", l->prev, l->data, l, l->next);
+		fprintf(stderr, "prev : %p -> me(%2d) stat %d : %p -> next : %p\n", l->prev, l->data, l->stay, l, l->next);
 		// printf("data : %d\n", l[i].data);
 		l = l->next;
 	}
+}
+
+void printStacks(stacks s)
+{
+	fprintf(stderr, "list A\n");
+	printList(s.l_A, s.sizeA);
+	fprintf(stderr, "list B\n");
+	printList(s.l_B, s.sizeB);
 }
 
 // Changé pour ne tester qu'un interval av des list : Pas testé
@@ -98,6 +106,66 @@ void readAction(stacks *s)
 	}
 }
 
+int count_n_clear_True(t_node *l, int size)
+{
+	int i;
+
+	i = 0;
+	while (size--)
+	{
+		if (l->stay && ++i)
+			l->stay = e_false;
+		l = l->next;
+	}
+	return (i);
+}
+
+void ft_bzero(void *s, int n)
+{
+	int i;
+
+	i = -1;
+	while (++i < n)
+		*(char *)s++ = 0;
+}
+
+void *ft_memcpy(const void *src, size_t n)
+{
+	void *dest;
+	size_t i;
+
+	if (!(dest = malloc(n)))
+		exit(-1);
+	i = -1;
+	while (++i < n)
+		((char*)dest)[i] = ((char*)src)[i];
+	return dest;
+}
+
+t_node *ft_lstCpy(t_node *l, size_t n)
+{
+	t_node *to_ret;
+	size_t i;
+
+	if (!(to_ret = malloc(n * sizeof(t_node))))
+		exit(-1);
+	to_ret[n - 1].next = &(to_ret[0]);
+	to_ret[0].prev = &(to_ret[n - 1]);
+	i = -1;
+	while (++i < n)
+	{
+		to_ret[i].stay = l->stay;
+		to_ret[i].data = l->data;
+// comment fait on pour les extrémitées
+		if (i != n - 1)
+			to_ret[i].next = &(to_ret[i + 1]);
+		if (i != 0)
+			to_ret[i].prev = &(to_ret[i - 1]);
+		l = l->next;
+	}
+	return to_ret;
+}
+
 #include <string.h>
 void test(stacks *s, /* enum action */ char act)
 {
@@ -116,7 +184,7 @@ void test(stacks *s, /* enum action */ char act)
 int main()
 {
 	int n = 1;
-	if(*(char *)&n == 1) {printf("little endian if true; sizeof(enum action)  %d\n", sizeof(enum action));}
+	if(*(char *)&n == 1) {printf("little endian if e_true; sizeof(enum action)  %d\n", sizeof(enum action));}
 	stacks s;
 	memset(&s, 0, sizeof(s));
 	s.action = malloc(100);
