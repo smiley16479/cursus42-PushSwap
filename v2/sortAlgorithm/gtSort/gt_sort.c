@@ -104,45 +104,42 @@ int elem_to_keep_gtSort(stacks *s)
 	return (lowestIndex);
 }
 
-void gtSort_Family_Algorithm(stacks *s)
-{
-	int lowestIndex[2];
-	int i = 0;
 
-	if (s->sizeA <= 3 && sort_3orLessNb(s))
+
+void gtSort_swapFurther(stacks *s)
+{
+	int i;
+	long idx;
+
+	if (s->sizeA <= 4 && sort_4orLessNb(s))
 			return;
 	int interval = s->sizeA / 5 ? s->sizeA / 5 : 1;
 	int **tab = malloc(sizeof(int**) * (interval + 1));
 	ft_bzero(tab, sizeof(int**) * (interval + 1));
-	fprintf(stderr, "elem_to_keep_gtSort_swapFurther\n");
+	// fprintf(stderr, "elem_to_keep_gtSort_swapFurther\n");
 	while (interval > 0)
 	{
-		fprintf(stderr, "interval : %d\n", interval);
 		tab[((s->sizeA / 5) ? s->sizeA / 5 : 1) - interval] = elem_to_keep_gtSort_swapFurther(s, interval);
-		i = getLowestIdx(tab[0], s->sizeA);
-		// printList(s->l_A, s->size);
 		--interval;
 	}
-	long idx = getMaxFollowedElem(tab, s->sizeA);
+	idx = getMaxFollowedElem(tab, s->sizeA);
 	s->interval = s->sizeA / 5 - ((idx << 32) >> 32);
-	fprintf(stderr, "les indexes %d: %d\n", ((idx << 32) >> 32), (idx >> 32));
+	// fprintf(stderr, "les indexes %d: %d\n", ((idx << 32) >> 32), (idx >> 32));
 	markElem2keep_gtSort_swapFurther(s, (idx >> 32), s->sizeA / 5 - ((idx << 32) >> 32));
 	AB_nothinButTrue(s, tab[((idx << 32) >> 32)][(idx >> 32)], s->sizeA / 5 - ((idx << 32) >> 32));
-
-	// printStacks(*s);
-	// readAction(s);
-
-	// exit(0);
 	while (s->sizeB)
-	{
 		nearestInserableBA_gt(s);
-		// printStacks(*s);
-	}
 	align(s);
 	i = -1;
 	while (tab[++i])
 		free(tab[i]);
 	free(tab);
+}
+
+void gtSort_Family_Algorithm(stacks *s)
+{
+	int lowestIndex[2];
+	gtSort_swapFurther(s);
 	
 	// if (!isSorted(s->l_A, s->sizeA, e_true))
 	// {

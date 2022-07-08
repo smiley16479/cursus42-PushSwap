@@ -86,22 +86,19 @@ int main(int ac, char *av[])
 {
 	stacks s;
 	char *action;
-	char **action_S;
+	char **ACTIONS;
 
-	action_S = NULL;
+	ACTIONS = NULL;
 	while (get_next_line(0, &action))
-		action_S = gnl_2000(action_S, action);
+		ACTIONS = gnl_2000(ACTIONS, action);
 	free(action);
 	init(--ac, ++av, &s);
-
-	for (size_t i = 0; action_S && action_S[i]; i++)
-		printf("str[%d] : %s\n", i , action_S[i]);
-	execManip(&s, action_S);
+	execManip(&s, ACTIONS);
 	if (isSorted(s.l_A, s.sizeA, e_true))
 		write(1, "OK\n", 3);
 	else
 		write(1, "NOT SORTED\n", 11);
-	freeStrs(action_S);
+	freeStrs(ACTIONS);
 	free(s.action);
 	free(s.head_A);
 	free(s.tackSort);

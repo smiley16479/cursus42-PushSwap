@@ -117,7 +117,7 @@ void select_suitSort_pb(stacks *s);
 void push_to_B(stacks *s);
 
 // suitSortUtils.c
-int sort_3orLessNb(stacks *s);
+int sort_4orLessNb(stacks *s);
 int get_index(stacks *s, int elem);
 void align(stacks *s);
 

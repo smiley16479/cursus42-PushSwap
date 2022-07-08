@@ -1,27 +1,22 @@
 #include "utils.h"
 
-
-int sort_3orLessNb(stacks *s)
+int sort_4orLessNb(stacks *s)
 {
 	if (s->sizeA == 2)
 		if (check_A_Swap(s,1))
+		{
 			sa(s);
+			return 1;
+		}
+	if (s->size == 4)
+		pb(s);
 	sortSimple_3(s, &s->l_A, 'A');
+	if (s->size == 4)
+	{
+		nearestInserableBA_gt(s);
+		align(s);
+	}
 	return 1;
-}
-
-inline void isInInterval_l0l1(t_node **l, int *i, int interval)
-{
-	if (l[1]->idx - l[0]->idx > 0 && l[1]->idx - l[0]->idx <= interval)
-	{
-		l[1]->stay = e_true;
-		l[0] = l[1];
-	}
-	// ds le désordre
-	else if (l[0]->idx - l[1]->idx > 0 && l[0]->idx - l[1]->idx <= interval)
-	{
-		
-	}
 }
 
 static inline int get0index(stacks *s)
