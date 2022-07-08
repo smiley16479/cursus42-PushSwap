@@ -48,11 +48,13 @@ int nearestPopableBA(stacks *s)
 	node[1] = s->l_B->prev;
 	while (i <= s->sizeB / 2)
 	{
-		if (chunkCmp(node[0]->data, 1, s->tackSort + s->sizeB , 0)){
+		if (chunkCmp(node[0]->data, 1, s->tackSort + s->sizeB , 0))
+		{
 			fprintf(stderr, "node[0]->data : %d\n", node[0]->data);
 			return i;
 		}
-		if (chunkCmp(node[1]->data, 1, s->tackSort + s->sizeB , 0)) {
+		if (chunkCmp(node[1]->data, 1, s->tackSort + s->sizeB , 0))
+		{
 			fprintf(stderr, "node[1]->data : %d\n", node[1]->data);
 			return j;
 		}
@@ -85,7 +87,7 @@ void popBA(stacks *s, int idx)
 	if (idx < s->sizeB / 2)
 		while (--idx >= 0)
 		{
-			if (check_B_Swap(s))
+			if (check_B_Swap(s, 1))
 			// { // est-ce que c utile ça ?
 				sb(s);
 			// 	if (idx < 0)
@@ -96,12 +98,12 @@ void popBA(stacks *s, int idx)
 	else
 		while (++idx <= s->sizeB)
 		{
-			if (check_B_Swap(s))
+			if (check_B_Swap(s, 1))
 				sb(s);
 			rrb(s);
 		}
 	pa(s);
-	check_AB_Swap(s);
+	check_AB_Swap(s, 1);
 }
 
 int sort_BA_uniq(stacks *s)

@@ -11,23 +11,26 @@ void swap(t_node *l_)
 		tmp = l_->next->data;
 		l_->next->data = l_->data;
 		l_->data = tmp;
+		tmp = l_->next->idx;
+		l_->next->idx = l_->idx;
+		l_->idx = tmp;
 // Est-ce que ça ne devrait pas plutot virer le statut "stay"
 		// tmp = l_->next->stay = 0;
-		l_->next->stay = l_->stay = 0;
+		l_->next->stay = l_->stay = 1;
 		// l_->stay = tmp;
 	}
 }
 
 void sa(stacks *s)
 {
-	fprintf(stderr, "sa %d\n", s->l_A->data);
+	fprintf(stderr, "sa %d & %d\n", s->l_A->data, s->l_A->next->data);
 	writeAction(s, e_sa);
 	swap(s->l_A);
 }
 
 void sb(stacks *s)
 {
-	fprintf(stderr, "sb %d\n", s->l_B->data);
+	fprintf(stderr, "sb %d & %d\n", s->l_B->data, s->l_B->next->data);
 	writeAction(s, e_sb);
 	swap(s->l_B);
 }

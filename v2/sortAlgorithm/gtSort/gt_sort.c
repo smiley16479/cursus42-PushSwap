@@ -1,10 +1,11 @@
 #include "utils.h"
 
 /*
-** **arr contient le nombre d'élem qui se suivent par index de l_A[i] modifié par
+** **arr contient le nombre d'élem qui se suivent : par index de l_A[i] modifié par
 ** l_cpy[0]->data > l_cpy[0]->next->data (le premier *ptr), puis l'idx à partir duquel
-** on prends l_A[i] (le second *ptr) dans lequel sont le nombre d'elem qui se suivent
-** getMaxFollowedElem retourne l'index à partir duquel partir pour avoir le max d'elem qui se suivent
+** partir ds l_A[i] (le second *ptr) pour avoir le max d'elem qui se suivent
+** getMaxFollowedElem retourne les index à partir desquel partir pour avoir le max 
+** d'elem qui se suivent ds la première partie du long le premier index ds la seconde le second
 */
 long	getMaxFollowedElem(int **arr, int size)
 {
@@ -12,14 +13,14 @@ long	getMaxFollowedElem(int **arr, int size)
 
 	int i, j;
 	i = j = -1;
-	while(++i < size && (j = -1))
+	while(arr[++i] && (j = -1))
 		while(++j < size)
 			if (arr[idx[0]][idx[1]] < arr[i][j])
 			{
 				idx[0] = i;
 				idx[1] = j;
 			}
-	fprintf(stderr, "idx[0] av le plus d'elem qui se suivent : arr[%d][%d] : %d\n", idx[0], idx[1], arr[idx[0]][idx[1]]);
+	// fprintf(stderr, "idx[0] av le plus d'elem qui se suivent : arr[%d][%d] : %d\n", idx[0], idx[1], arr[idx[0]][idx[1]]);
 	return *((long*)idx);
 }
 
@@ -38,9 +39,9 @@ int	getLowestIdx(int *arr, int size)
 	while(++i < size)
 		if (arr[index] < arr[i])
 			index = i;
-	fprintf(stderr, "index av le plus d'elem qui se suivent : arr[%d] : %d\n", index, arr[index]);
-	for (size_t i = 0; i < size; i++)
-		fprintf(stderr, "arr[%d]: %d\n", i, arr[i]);
+	fprintf(stderr, "(getLowestIdx) index av le plus d'elem qui se suivent : arr[%d] : %d\n", index, arr[index]);
+	// for (size_t i = 0; i < size; i++)
+	// 	fprintf(stderr, "arr[%d]: %d\n", i, arr[i]);
 	return index;
 }
 
@@ -103,102 +104,58 @@ int elem_to_keep_gtSort(stacks *s)
 	return (lowestIndex);
 }
 
-void isBetterAfterSwap(stacks *s)
+void gtSort_Family_Algorithm(stacks *s)
 {
 	int lowestIndex[2];
 	int i = 0;
 
-	// int interval = s->sizeA / 10;
-	// int **tab = malloc(sizeof(int**)* interval);
-	// fprintf(stderr, "elem_to_keep_gtSort_swapFurther\n");
-	// while (interval)
-	// 	tab[i++] = elem_to_keep_gtSort_swapFurther(s, interval--, e_false);
+	if (s->sizeA <= 3 && sort_3orLessNb(s))
+			return;
+	int interval = s->sizeA / 5 ? s->sizeA / 5 : 1;
+	int **tab = malloc(sizeof(int**) * (interval + 1));
+	ft_bzero(tab, sizeof(int**) * (interval + 1));
+	fprintf(stderr, "elem_to_keep_gtSort_swapFurther\n");
+	while (interval > 0)
+	{
+		fprintf(stderr, "interval : %d\n", interval);
+		tab[((s->sizeA / 5) ? s->sizeA / 5 : 1) - interval] = elem_to_keep_gtSort_swapFurther(s, interval);
+		i = getLowestIdx(tab[0], s->sizeA);
+		// printList(s->l_A, s->size);
+		--interval;
+	}
+	long idx = getMaxFollowedElem(tab, s->sizeA);
+	s->interval = s->sizeA / 5 - ((idx << 32) >> 32);
+	fprintf(stderr, "les indexes %d: %d\n", ((idx << 32) >> 32), (idx >> 32));
+	markElem2keep_gtSort_swapFurther(s, (idx >> 32), s->sizeA / 5 - ((idx << 32) >> 32));
+	AB_nothinButTrue(s, tab[((idx << 32) >> 32)][(idx >> 32)], s->sizeA / 5 - ((idx << 32) >> 32));
 
-	fprintf(stderr, "\nelem_to_keep_gtSort_swap\n");
-	lowestIndex[1] = elem_to_keep_gtSort_swap(s);
+	// printStacks(*s);
+	// readAction(s);
+
+	// exit(0);
+	while (s->sizeB)
+	{
+		nearestInserableBA_gt(s);
+		// printStacks(*s);
+	}
+	align(s);
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+	
+	// if (!isSorted(s->l_A, s->sizeA, e_true))
+	// {
+	// 	fprintf(stderr, "NOT SORTED :'(\n");
+	// 	exit(404);
+	// }
+
+	// fprintf(stderr, "\nelem_to_keep_gtSort_swap\n");
+	// lowestIndex[1] = elem_to_keep_gtSort_swap(s);
 	// fprintf(stderr, "\nelem_to_keep_gtSort_swap result %d\n", lowestIndex[1]);
 
 	// fprintf(stderr, "\nelem_to_keep_gtSort\n");
 	// *lowestIndex = elem_to_keep_gtSort(s);
 }
 
-/* 
-** copie de select_suitSort_pb(stacks *s) adapté pour marqué les elem à 
-** conserver ds gt_sort ceci est censé amélioré elem_to_keep_gtSort_swap(s)
-** Il ne fait que marquer les elem à conserver et ne change rien 
-*/
-int *elem_to_keep_gtSort_swapFurther(stacks *s, int interval, t_bool markElem)
-{
-	int *tab = malloc(sizeof(int)* s->sizeA);
-	int i[4];
-	int j = -1;
-	int elem;
-	t_node *l;
-
-	while (++j < s->sizeA)
-	{
-		l = s->l_A + j;
-		elem = l->data;
-		i[0] = 0;
-		while (i[0] < s->sizeA)
-		{
-			i[1] = get_index(s, l->data);
-			i[2] = get_index(s, l->next->data);
-			i[3] = get_index(s, l->next->next->data);
-			fprintf(stderr, "%3d, %3d, %3d, %8d\n", l->data, l->next->data, l->next->next->data, i[0]);
-			// fprintf(stderr, "%3d, %3d, %3d\n", i[1], i[2], i[3]);
-			// Ds l'ordre
-			if (elem <= l->data && i[2] - i[1] > 0 && i[2] - i[1] <= interval)
-			{
-				l->stay = e_true;
-				l->next->stay = e_true;
-				elem = l->next->data;
-				fprintf(stderr, "True (i : %d)\n\n", i[0]);
-			}
-			// Ds l'ordre avec un gap entre [1] et [3]
-			else if (elem <= l->data && i[3] - i[1] > 0 && i[3] - i[1] <= interval)
-			{
-				l->stay = e_true;
-				l->next->stay = e_false;
-				l->next->next->stay = e_true;
-				elem = l->next->next->data; // [3].data
-				l = l->next;
-				++i[0];
-				fprintf(stderr, "True False True (i : %d)\n\n", i[0]);
-			}
-			// Ds le désordre
-			else if (elem <= l->data && i[1] - i[2] > 0 && i[1] - i[2] <= interval)
-			{
-				l->stay = e_swap1;
-				l->next->stay = e_swap2;
-				elem = l->data;
-				fprintf(stderr, "True (i : %d)\n\n", i[0]);
-			}
-			// Ds le désordre avec un gap entre [1] et [3]
-			else if (elem <= l->data && i[1] - i[3] > 0 && i[1] - i[3] <= interval)
-			{
-				l->stay = e_swapGap1;
-				l->next->stay = e_false;
-				l->next->next->stay = e_swapGap2;
-				elem = l->data; // [1].data
-				l = l->next;
-				++i[0];
-				fprintf(stderr, "True False True (i : %d)\n\n", i[0]);
-			}
-			else if (i[0] < s->sizeA - 1)
-			{
-				if (!l->stay) // ? wtf
-					l->stay = e_false;
-				// l->next->stay = e_false;
-				// l = l->next;
-				// ++i[0];
-				fprintf(stderr, "False (i : %d)\n\n", i[0]);
-			}
-			l = l->next;
-			++i[0];
-		}
-		tab[j] = count_n_clear_True(l, s->sizeA);
-	}
-	return (tab);
-}
-
+// 8 19 10 14 11 16 7 2 18 0 9 13 1 5 15 12 17 6 4 3

@@ -2,7 +2,7 @@
 int sort_BA_uniq(stacks *s); // A virer, c pour tester
 
 /*
-**	is toCmp == à l'un des éléments de l'interval chunksize contenu ds *chunk
+**	is toCmp == à l'un des éléments de l'interval chunksize contenu ds *chunkSort
 */
 int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending)
 {
@@ -99,32 +99,28 @@ int sortBA(stacks *s, int chunkSize, int *chunkIdx)
 /* 
 ** Pop le bon élément de A vers B en checkant si des swap sont néccessaire à chaque manip de A
 */
-void popAB(stacks *s, int idx)
+void popAB(stacks *s, int idx, int swapInterval)
 {
 	if (idx == -1) {
-		printf("popAB() idx == -1 (nearestPopableAB non trouvé)\n");
+		printf("popAB() idx == -1 (popAB non trouvé)\n");
 		exit(1);
 	}
-	if (idx < s->sizeA / 2)
+	if (idx <= s->sizeA / 2)
 		while (--idx >= 0)
 		{
-			if (check_A_Swap(s))
-			{
-				sa(s);
-				if (idx < 0)
-					break ;
-			}
+			// if (check_AB_Swap(s, swapInterval))
+			// 	sa(s);
 			ra(s);
 		}
 	else
 		while (++idx <= s->sizeA)
 		{
-			if (check_A_Swap(s))
-				sa(s);
+			// if (check_AB_Swap(s, swapInterval))
+			// 	sa(s);
 			rra(s);
 		}
 	pb(s);
-	check_AB_Swap(s);
+	// check_AB_Swap(s, swapInterval);
 }
 
 void midPointAlgo(stacks *s)
@@ -143,7 +139,7 @@ void midPointAlgo(stacks *s)
 		// printf("list B\n");
 		// printList(s->l_B, s->sizeB);
 		while (++i < chunkSize)
-			popAB(s, nearestPopableAB(s, chunkSize, chunkIdx));
+			popAB(s, nearestPopableAB(s, chunkSize, chunkIdx), 1);
 		chunkIdx += chunkSize;
 	}
 	// printf("Size A : %d, chunkSize %d\n", s->sizeA, chunkSize);

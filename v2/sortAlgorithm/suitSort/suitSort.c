@@ -55,7 +55,7 @@ void push_to_B(stacks *s)
 	i = -1;
 	while (++i < s->size)
 	{
-		if (check_A_Swap(s))
+		if (check_A_Swap(s, 1))
 		{
 			s->l_A->stay = e_true;
 			s->l_A->next->stay = e_true;

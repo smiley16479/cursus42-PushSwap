@@ -1,9 +1,11 @@
 #include "utils.h"
 
-int ft_strlen(char *str)
+int ft_strlen(const char *str)
 {
 	int i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (*str++)
 		++i;
@@ -25,6 +27,43 @@ void printStacks(stacks s)
 	printList(s.l_A, s.sizeA);
 	fprintf(stderr, "list B\n");
 	printList(s.l_B, s.sizeB);
+}
+
+void init(int ac, char *av[], stacks *s)
+{
+	if (!ac)
+		exit(0);
+	s->tackSort = malloc(sizeof(int) * ac);
+	s->action = malloc(sizeof(int) * 2500);
+	ft_bzero(s->action, sizeof(int)*2500);
+	// for (size_t i = 0; i < 10; i++)
+	// {
+	// 	printf("%d\n", s->action[i]);
+	// }
+	
+	s->l_A = malloc(sizeof(*s->l_A) * ac);
+	s->l_B = NULL;
+
+	s->size = 0;
+	s->idxAction = 0;
+	if (!s->l_A || checkArg(av, s))
+		panicERROR();
+	sort(s->tackSort, s->size);
+	// printf("ac : %d, size : %d\n", ac, s->size);
+
+	s->head_A = s->l_A;
+	ac = -1;
+	while (++ac < s->sizeA - 1)
+	{
+		s->l_A[ac].stay = 0;
+		s->l_A[ac].idx = get_index(s, s->l_A[ac].data);
+		s->l_A[ac].next = &s->l_A[ac + 1];
+		s->l_A[ac + 1].prev = &s->l_A[ac];
+	}
+	s->l_A[ac].stay = 0;
+	s->l_A[ac].idx = get_index(s, s->l_A[ac].data);
+	s->l_A[s->sizeA - 1].next = &s->l_A[0];
+	s->l_A[0].prev = &s->l_A[s->sizeA - 1];
 }
 
 // Changé pour ne tester qu'un interval av des list : Pas testé
@@ -156,6 +195,7 @@ t_node *ft_lstCpy(t_node *l, size_t n)
 	{
 		to_ret[i].stay = l->stay;
 		to_ret[i].data = l->data;
+		to_ret[i].idx = l->idx;
 // comment fait on pour les extrémitées
 		if (i != n - 1)
 			to_ret[i].next = &(to_ret[i + 1]);

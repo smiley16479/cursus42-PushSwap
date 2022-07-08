@@ -48,7 +48,7 @@ void rr(stacks *s)
 {
 	if (s->l_B && s->l_A)
 	{
-		fprintf(stderr, "rr A:%d, B:%d\n", s->l_A->data, s->l_B->data);
+		fprintf(stderr, "rr %d, %d\n", s->l_A->data, s->l_B->data);
 		writeAction(s, e_rr);
 		rotate(&s->l_A);
 		rotate(&s->l_B);

@@ -63,8 +63,9 @@ int elem_to_keep_gtSort_swap(stacks *s)
 	int i;
 	int j;
 	int **tab;
-	if (!(tab = malloc(s->size * sizeof(int*))))
+	if (!(tab = malloc((s->size + 1) * sizeof(int*))))
 		exit(-1);
+	ft_bzero(tab, (s->size + 1) * sizeof(int*));
 	i = -1;
 	while (++i < s->sizeA)
 	{
@@ -77,6 +78,7 @@ int elem_to_keep_gtSort_swap(stacks *s)
 		while (j++ < s->sizeA)
 		{
 			// if (check_A_Swap_for_gt(s, l_cpy[0], e_false))
+			// il me semble que c de la grosse merde de swapper tant que l1 > l2
 			if (l_cpy[0]->data > l_cpy[0]->next->data) // && l_cpy[0]->next->data != s->l_A->prev->data)
 			{
 				// (*l_cpy)->next->stay = e_true;
@@ -90,8 +92,6 @@ int elem_to_keep_gtSort_swap(stacks *s)
 		// count_n_clear_True(l_cpy[0], s->sizeA);
 		printList(l_cpy[0], s->size);
 		fprintf(stderr, "\n-------------------\n");
-		// printList(l_cpy[1], s->size);
-		// fprintf(stderr, "\n-------------------\n");
 		free(l_cpy[1]);
 	}
 	fprintf(stderr, "hihest following elem %d\n", l_cpy[0]->data, l_cpy[1]->data, l_cpy[0], l_cpy[1]);
@@ -121,7 +121,7 @@ int elem_to_keep_gtSort_swap(stacks *s)
 	return (0);
 }
 /*
-** on retourne donc l + getLowestIdx() -> qui est l'élem à partir duquel faire l'algo
+** on retourne donc l + getLowestIdx() -> qui est l'élem à partir duquel faire l'algo où
 ** (l_cpy[0]->data > l_cpy[0]->next->data) déclenchera le plus de d'élem qui se suivent
 **
 */

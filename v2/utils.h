@@ -18,6 +18,7 @@ typedef enum
 
 typedef struct s_node{
 	int	data;
+	int	idx;
 	t_bool stay;
 	struct s_node *prev;
 	struct s_node *next;
@@ -33,10 +34,25 @@ typedef struct stacks{
 	int sizeA;
 	int sizeB;
 	int idxAction;
-
+// pour chunkSort
 	int chunkSize;
 	int chunkIdx;
+// pour gtSort
+	t_bool stat;
+	int minIdx; // est initialisé ds nothingButTrue
+	int maxIdx; // est initialisé ds nothingButTrue
+	int interval;
 }stacks;
+
+typedef struct s_move{
+	int	r;
+	int	rr;
+}t_move;
+
+typedef struct s_moves{
+	int addedMove;
+	t_move move[2];
+}t_moves;
 
 // utils.c
 void printList(t_node *l, int size); // faclutatif
@@ -81,14 +97,16 @@ void rrr(stacks *s);
 
 // chunk.c
 void midPointAlgo(stacks *s);
+void popAB(stacks *s, int idx, int swapInterval);
+int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending);
 
 // chunkManip.c
 void sortSimple_3(stacks *s, t_node **l, char stackID);
 
 // autoSwapCheck.c
-int check_A_Swap(stacks *s);
-int check_B_Swap(stacks *s);
-int check_AB_Swap(stacks *s);
+int check_A_Swap(stacks *s, int interval);
+int check_B_Swap(stacks *s, int interval);
+int check_AB_Swap(stacks *s, int interval);
 
 int *testWithNewConfig(stacks *s, t_node *l);
 int elem_to_keep_gtSort_swap(stacks *s);
@@ -99,15 +117,24 @@ void select_suitSort_pb(stacks *s);
 void push_to_B(stacks *s);
 
 // suitSortUtils.c
+int sort_3orLessNb(stacks *s);
 int get_index(stacks *s, int elem);
+void align(stacks *s);
 
 // gt_sort.c
 int elem_to_keep_gtSort(stacks *s);
 long	getMaxFollowedElem(int **arr, int size);
 int	getLowestIdx(int *arr, int size);
 int followedElem(t_node *l, int size, t_bool markElem);
-void isBetterAfterSwap(stacks *s);
-int *elem_to_keep_gtSort_swapFurther(stacks *s, int interval, t_bool markElem);
+void gtSort_Family_Algorithm(stacks *s);
+int *elem_to_keep_gtSort_swapFurther(stacks *s, int interval);
+void markElem2keep_gtSort_swapFurther(stacks *s, int idx, int interval);
+void AB_nothinButTrue(stacks *s, int trueElem, int swapInterval);
+int nearestPopableTrueAB_gt(stacks *s);
+int nearestInserableBA_gt(stacks *s);
 
+// radix.c
+void radixAlgo(stacks *s);
+int nearestPopableAB_radix(stacks *s, int chunkSize, int chunkIdx);
 
 #endif
