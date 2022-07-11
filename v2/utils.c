@@ -117,9 +117,9 @@ void readAction(stacks *s)
 	int i;
 	int j;
 	char *a[] = {
-				"", "sa", "sb" ,"ss", "pa",
-				"pb","ra", "rb", "rr",
-				"rra", "rrb" , "rrr"
+				"", "sa\n", "sb" ,"ss\n", "pa\n",
+				"pb\n","ra\n", "rb\n", "rr\n",
+				"rra\n", "rrb\n", "rrr\n"
 				};
 
 	// printf("readAction %d\n", s->idxAction);
@@ -130,18 +130,18 @@ void readAction(stacks *s)
 			if ((s->action[i] & 0x0F) == j)
 			{
 				write(1, a[j], ft_strlen(a[j]));
+				// write(1, "\n", 1);
 				// printf(" r poid faible %d (%s)\n", j, a[j]);
 			}
 		j = 0;
-		write(1, "\n", 1);
 		// printf(" r poid fort %d\n", ((s->action[i] & 0xF0) >> 4));
 		while (++j <= e_rrr)
 			if (((s->action[i] & 0xF0) >> 4) == j)
 			{
 				write(1, a[j], ft_strlen(a[j]));
+				// write(1, "\n", 1);
 				// printf(" r poid fort %d (%s)\n", j, a[j]);
 			}
-		write(1, "\n", 1);
 	}
 }
 

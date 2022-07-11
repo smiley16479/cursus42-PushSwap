@@ -17,10 +17,10 @@ void select_suitSort_pb(stacks *s)
 		i[1] = get_index(s, l->data);
 		i[2] = get_index(s, l->next->data);
 		i[3] = get_index(s, l->next->next->data);
-		fprintf(stderr, "%3d, %3d, %3d, %8d\n", l->data, l->next->data, l->next->next->data, i[0]);
-		// fprintf(stderr, "%3d, %3d, %3d\n", i[1], i[2], i[3]);
-		if ((i[1] - i[2] == - 1 || i[1] - i[2] == 1) && fprintf(stderr, "True (i : %d)\n\n", i[0]))
+		// fprintf(stderr, "%3d, %3d, %3d, %8d\n", l->data, l->next->data, l->next->next->data, i[0]);
+		if ((i[1] - i[2] == - 1 || i[1] - i[2] == 1))
 		{
+			// fprintf(stderr, "True (i : %d)\n\n", i[0]);
 			l->stay = e_true;
 			l->next->stay = e_true;
 		}
@@ -31,16 +31,13 @@ void select_suitSort_pb(stacks *s)
 			l->next->next->stay = e_true;
 			l = l->next;
 			++i[0];
-			fprintf(stderr, "True False True (i : %d)\n\n", i[0]);
+			// fprintf(stderr, "True False True (i : %d)\n\n", i[0]);
 		}
 		else if (i[0] < s->sizeA - 1)
 		{
 			if (!l->stay)
 				l->stay = e_false;
-			// l->next->stay = e_false;
-			// l = l->next;
-			// ++i[0];
-			fprintf(stderr, "False (i : %d)\n\n", i[0]);
+			// fprintf(stderr, "False (i : %d)\n\n", i[0]);
 		}
 		l = l->next;
 		++i[0];

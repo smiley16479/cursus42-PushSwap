@@ -18,17 +18,11 @@ int main(int ac, char *av[])
 	// if (isSorted(&s)) // si dejà triée ne fait rien
 	// 	return (0);
 
-	// sortSimple_3(&s, &s.l_A, 'A');
-
 	// elem_to_keep_gtSort(&s);
 	gtSort_Family_Algorithm(&s);
 
 
-	printStacks(s);
-	// push_to_B(&s);
 	// printStacks(s);
-
-	// midPointAlgo(&s);
 
 	readAction(&s);
 	free(s.action);

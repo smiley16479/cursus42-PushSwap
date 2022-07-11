@@ -11,7 +11,7 @@ void freeStrs(char **strs)
 		return;
 	while (*strs)
 	{
-		printf("str : %s\n", *strs);
+		// printf("str : %s\n", *strs);
 		free(*strs);
 		++strs;
 	}
@@ -88,6 +88,10 @@ int main(int ac, char *av[])
 	char *action;
 	char **ACTIONS;
 
+/* 	printf("%p\n", av[ac]);
+	for (size_t i = 0; av[i]; i++)
+		printf("%s\n", av[i]);
+	 */
 	ACTIONS = NULL;
 	while (get_next_line(0, &action))
 		ACTIONS = gnl_2000(ACTIONS, action);

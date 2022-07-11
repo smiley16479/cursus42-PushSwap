@@ -39,7 +39,7 @@ int	getLowestIdx(int *arr, int size)
 	while(++i < size)
 		if (arr[index] < arr[i])
 			index = i;
-	fprintf(stderr, "(getLowestIdx) index av le plus d'elem qui se suivent : arr[%d] : %d\n", index, arr[index]);
+	// fprintf(stderr, "(getLowestIdx) index av le plus d'elem qui se suivent : arr[%d] : %d\n", index, arr[index]);
 	// for (size_t i = 0; i < size; i++)
 	// 	fprintf(stderr, "arr[%d]: %d\n", i, arr[i]);
 	return index;
@@ -55,7 +55,7 @@ int followedElem(t_node *l, int size, t_bool markElem)
 
 	if (markElem)
 	{
-		fprintf(stderr, "followedElem() starting from %d\n", l->data);
+		// fprintf(stderr, "followedElem() starting from %d\n", l->data);
 		l->stay = e_true;
 	}
 	elem = l->data;
@@ -67,14 +67,14 @@ int followedElem(t_node *l, int size, t_bool markElem)
 		{
 			if (markElem)
 			{
-				fprintf(stderr, " ? %d < %d\n", elem , l->data);
+				// fprintf(stderr, " ? %d < %d\n", elem , l->data);
 				l->stay = e_true;
 			}
 			elem = l->data;
 		}
 	}
-	if (markElem)
-		fprintf(stderr, "followedElem : %d starting from %d\n", count_Of_Followed_Elem, l->data);
+	// if (markElem)
+		// fprintf(stderr, "followedElem : %d starting from %d\n", count_Of_Followed_Elem, l->data);
 	return count_Of_Followed_Elem;
 }
 
@@ -96,10 +96,10 @@ int elem_to_keep_gtSort(stacks *s)
 		l = l->next;
 	}
 	lowestIndex = getLowestIdx(tab, s->size);
-	fprintf(stderr, "new followed item account : %d\n", tab[lowestIndex]); // no need
-	l = &(s->l_A[lowestIndex]); // no need
-	followedElem(l, s->size, e_true); // no need
-	printList(l, s->size); // no need
+	// fprintf(stderr, "new followed item account : %d\n", tab[lowestIndex]); // no need
+	// l = &(s->l_A[lowestIndex]); // no need
+	// followedElem(l, s->size, e_true); // no need
+	// printList(l, s->size); // no need
 	free(tab);
 	return (lowestIndex);
 }
@@ -127,6 +127,7 @@ void gtSort_swapFurther(stacks *s)
 	// fprintf(stderr, "les indexes %d: %d\n", ((idx << 32) >> 32), (idx >> 32));
 	markElem2keep_gtSort_swapFurther(s, (idx >> 32), s->sizeA / 5 - ((idx << 32) >> 32));
 	AB_nothinButTrue(s, tab[((idx << 32) >> 32)][(idx >> 32)], s->sizeA / 5 - ((idx << 32) >> 32));
+	// printList(s->l_A, s->sizeA);
 	while (s->sizeB)
 		nearestInserableBA_gt(s);
 	align(s);

@@ -9,7 +9,7 @@ inline int check_A_Swap(stacks *s, int interval)
 	if (s->sizeA >= 2 && s->l_A->idx > s->l_A->next->idx
 		&& s->l_A->idx - s->l_A->next->idx <= interval)
 	{
-		fprintf(stderr, "Check_A idx : %d, idx->next : %d interval : %d\n", s->l_A->idx, s->l_A->next->idx, interval);
+		// fprintf(stderr, "Check_A idx : %d, idx->next : %d interval : %d\n", s->l_A->idx, s->l_A->next->idx, interval);
 		return (1);
 	}
 	return (0);

@@ -20,7 +20,6 @@ int *elem_to_keep_gtSort_swapFurther(stacks *s, int interval)
 		l[1]->stay = e_true;
 		l[0] = l[1];
 		i[1] = 0;
-		// fprintf(stderr, "\ns->l_A (%d) + i[0] : %d\n\n", l[1]->data, i[0]);
 		while (i[1] < s->sizeA)
 		{
 			l[2] = l[1]->next;
@@ -29,26 +28,18 @@ int *elem_to_keep_gtSort_swapFurther(stacks *s, int interval)
 			{
 				l[1]->stay = e_true;
 				l[0] = l[1];
-				// fprintf(stderr, "(1) (i : %d) elem : %d\n", i[1], l[0]->data);
 			} // désordre
 			else if (l[0]->idx - l[1]->idx > 0 && l[0]->idx - l[1]->idx <= 1/* interval */) // <--ICI
 			{
 				l[0]->stay = e_swap1;
 				l[1]->stay = e_swap2;
-				// fprintf(stderr, "(1'') (i : %d) elem : %d\n", i[1], l[0]->data);
 			}
 			l[1] = l[2];
 			++i[1];
 		}
-		// if (interval == 4 && !i[0]){
-			fprintf(stderr, "\nICICICICICIC 1st maillon : %d interval : %d\n", l[1]->data, interval);
-			printList(l[1], s->size);
-		// }
 		tab[i[0]] = count_n_clear_True(l[1], s->sizeA);
-		fprintf(stderr, "\nElement true : %d interval : %d\n", tab[i[0]], interval);
+		// fprintf(stderr, "\nElement true : %d interval : %d\n", tab[i[0]], interval);
 	}
-	// for (size_t i = 0; i < s->sizeA; i++)
-	// 	fprintf(stderr, "elem to keep  tab[%d] : %d\n", i, tab[i]);
 	return (tab);
 }
 
@@ -62,8 +53,8 @@ void markElem2keep_gtSort_swapFurther(stacks *s, int idx, int interval)
 	l[0] = s->l_A + idx;
 	l[1] = s->l_A + idx;
 	l[1]->stay = e_true;
-	fprintf(stderr, "markElem2keep_gtSort_swapFurther\n");
-	fprintf(stderr, "(1) (i : %d) elem : %d\n", i, l[0]->data);
+	// fprintf(stderr, "markElem2keep_gtSort_swapFurther\n");
+	// fprintf(stderr, "(1) (i : %d) elem : %d\n", i, l[0]->data);
 	while (++i < s->sizeA)
 	{
 		l[2] = l[1]->next;
@@ -72,25 +63,25 @@ void markElem2keep_gtSort_swapFurther(stacks *s, int idx, int interval)
 		{
 			l[1]->stay = e_true;
 			l[0] = l[1];
-			fprintf(stderr, "(2) (i : %d) elem : %d\n", i, l[0]->data);
+			// fprintf(stderr, "(2) (i : %d) elem : %d\n", i, l[0]->data);
 		} // désordre
 		else if (l[0]->idx - l[1]->idx > 0 && l[0]->idx - l[1]->idx <= 1/* interval */) // <--ICI
 		{
 			l[0]->stay = e_swap1;
 			l[1]->stay = e_swap2;
-			fprintf(stderr, "(3) (i : %d) elem : %d\n", i, l[1]->data);
+			// fprintf(stderr, "(3) (i : %d) elem : %d\n", i, l[1]->data);
 		}
 		l[1] = l[2];
 	}
 	// fprintf(stderr, "\nmarkElem2keep_gtSort_swapFurther(t_node *l_node, int size, int interval)\n");
-	// printList(l[1], size);
+	// printList(l[1], s->sizeA);
 }
 
 // garde slmt les element != de e_false ds A
 // Checkant si des swap sont nécessaire selon: int swapInterval
 void AB_nothinButTrue(stacks *s, int trueElem, int swapInterval)
 {
-	fprintf(stderr, "\nAB_nothinButTrue\n");
+	// fprintf(stderr, "\nAB_nothinButTrue\n");
 
 	t_node *l;
 	int i;
@@ -143,7 +134,7 @@ int nearestPopableTrueAB_gt(stacks *s)
 		--j;
 	}
 
-	fprintf(stderr, "nearestPopableTrueAB_gt e_false Non Trouvé\n");
-	printList(s->l_A, s->sizeA);	
+	// fprintf(stderr, "nearestPopableTrueAB_gt e_false Non Trouvé\n");
+	// printList(s->l_A, s->sizeA);
 	return -1;
 }

@@ -5,18 +5,18 @@ void sortSimple_3(stacks *s, t_node **l, char stackID)
 {
 	t_node *node[3] = {*l , (*l)->next, (*l)->next->next};
 	int ID = 0;
-	if (node[0]->data > node[1]->data && node[0]->data < node[2]->data && fprintf(stderr, "%d\n", (ID = 1)))
+	if (node[0]->data > node[1]->data && node[0]->data < node[2]->data /* && fprintf(stderr, "%d\n", (ID = 1)) */)
 		swap(*l);
-	else if (node[0]->data > node[1]->data && node[1]->data < node[2]->data && fprintf(stderr, "%d\n", (ID = 2)))
+	else if (node[0]->data > node[1]->data && node[1]->data < node[2]->data /* && fprintf(stderr, "%d\n", (ID = 2)) */)
 		rotate(l);
-	else if (node[0]->data < node[1]->data && node[0]->data > node[2]->data && fprintf(stderr, "%d\n", (ID = 3)))
+	else if (node[0]->data < node[1]->data && node[0]->data > node[2]->data /* && fprintf(stderr, "%d\n", (ID = 3)) */)
 		revRotate(l);
-	else if (node[0]->data > node[1]->data && node[1]->data > node[2]->data && fprintf(stderr, "%d\n", (ID = 4)))
+	else if (node[0]->data > node[1]->data && node[1]->data > node[2]->data /* && fprintf(stderr, "%d\n", (ID = 4)) */)
 	{
 		swap(*l);
 		revRotate(l);
 	}
-	else if (node[0]->data < node[1]->data  && node[1]->data > node[2]->data && fprintf(stderr, "%d\n", (ID = 5)))
+	else if (node[0]->data < node[1]->data  && node[1]->data > node[2]->data /* && fprintf(stderr, "%d\n", (ID = 5)) */)
 	{
 		swap(*l);
 		rotate(l);

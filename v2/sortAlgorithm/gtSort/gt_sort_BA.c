@@ -87,6 +87,8 @@ int	getLowestValueIdx(t_moves *arr, int size)
 
 int execRRs(stacks *s, t_move *move)
 {
+	if (move[0].r == 1 && check_A_Swap(s, s->interval))
+		--move[0].r;
 	check_AB_Swap(s, s->interval);
 	if (move[0].rr && move[1].rr)
 	{
@@ -95,27 +97,18 @@ int execRRs(stacks *s, t_move *move)
 			--move[1].rr;
 			--move[0].rr;
 			rrr(s);
+			if (move[0].r == 1 && check_A_Swap(s, s->interval))
+				--move[0].r;
 			check_AB_Swap(s, s->interval);
 		}
-/* 		while (move[0].rr)
-		{
-			rra(s);
-			--move[0].rr;
-			check_AB_Swap(s, s->interval);
-		}
-		while (move[1].rr)
-		{
-			rrb(s);
-			--move[1].rr;
-			check_AB_Swap(s, s->interval);
-		}
-		return (1); */
 	}
 	return (0);
 }
 
 int execRs(stacks *s, t_move *move)
 {
+	if (move[0].r == 1 && check_A_Swap(s, s->interval))
+		--move[0].r;
 	check_AB_Swap(s, s->interval);
 	if (move[0].r && move[1].r)
 	{
@@ -124,33 +117,22 @@ int execRs(stacks *s, t_move *move)
 			--move[1].r;
 			--move[0].r;
 			rr(s);
-			// if (check_A_Swap(s, s->interval) && move[0].r == 1)
-			// 	--move[0].r;
-			// if (check_B_Swap(s, s->interval) && move[1].r == 1)
-			// 	--move[1].r;
+			if (move[0].r == 1 && check_A_Swap(s, s->interval))
+				--move[0].r;
 			check_AB_Swap(s, s->interval);
 		}
-/* 		while (move[0].r)
-		{
-			ra(s);
-			--move[0].r;
-			check_AB_Swap(s, s->interval);
-		}
-		while (move[1].r)
-		{
-			rb(s);
-			--move[1].r;
-			check_AB_Swap(s, s->interval);
-		}
-		return (1); */
 	}
 	return (0);
 }
 
 void execR_RR(stacks *s, t_move *move)
 {
+	if (check_A_Swap(s, s->interval) && s->l_A->stay && move[0].r == 1)
+		--move[0].r;
+	if (check_B_Swap(s, s->interval) && s->l_B->stay && move[1].r == 1)
+		--move[1].r;
 	check_AB_Swap(s, s->interval);
-	fprintf(stderr, "(execR_RR) l_a.idx : %d, l_a.idx->next : %d\n", s->l_A->idx, s->l_A->next->idx);
+	// fprintf(stderr, "(execR_RR) l_a.idx : %d, l_a.idx->next : %d\n", s->l_A->idx, s->l_A->next->idx);
 	while (move[0].r || move[0].rr || move[1].r || move[1].rr)
 	{
 		if (move[0].r)
@@ -183,7 +165,7 @@ void execR_RR(stacks *s, t_move *move)
 
 void swap_Bf4_Push(stacks *s)
 {
-	fprintf(stderr, "swap_Bf4_Push interval : %d\n", s->interval);
+	// fprintf(stderr, "swap_Bf4_Push interval : %d\n", s->interval);
 	check_AB_Swap(s, s->interval);
 	rra(s);
 	check_AB_Swap(s, s->interval);
@@ -195,7 +177,7 @@ void swap_Bf4_Push(stacks *s)
 
 void execManip(stacks *s, t_move *move)
 {
-	fprintf(stderr, "(execManip) move[0].r %d move[0].rr %d : move[1].r %d move[1].rr %d \n", move[0].r, move[0].rr, move[1].r, move[1].rr);
+	// fprintf(stderr, "(execManip) move[0].r %d move[0].rr %d : move[1].r %d move[1].rr %d \n", move[0].r, move[0].rr, move[1].r, move[1].rr);
 	execRs(s, move);
 	execRRs(s, move);
 	// fprintf(stderr, "execR_RR(s, move)\n");
@@ -206,7 +188,6 @@ void execManip(stacks *s, t_move *move)
 		swap_Bf4_Push(s);
 	else
 		pa(s);
-	printList(s->l_A, s->sizeA);
 }
 
 int nearestInserableBA_gt(stacks *s)

@@ -45,6 +45,8 @@ int checkArg(char *av[], stacks *s)
 		++s->size;
 		++av;
 	}
+	// for (size_t i = 0; i < s->size; i++)
+	// 	fprintf(stderr, "%d\n", s->tackSort[i]);
 	s->sizeA = s->size;
 	s->sizeB = 0;
 	return (checkDuplicate(s));
@@ -52,19 +54,22 @@ int checkArg(char *av[], stacks *s)
 
 int putNb(char *strNb)
 {
-	int nb;
+	long nb;
 	int sign;
 
-	nb = 0;
+	if (!strNb || !(*strNb))
+		panicERROR();
+	sign = 1;
 	if(*strNb == '-' && ++strNb)
 		sign = -1;
-	else 
-		sign = 1;
+	nb = 0;
 	while (*strNb)
 	{
 		nb *= 10;
 		nb += *strNb++ - '0';
 	}
+	if (nb > __INT_MAX__ || nb < -2147483648)
+		panicERROR();
 	return (nb * sign);
 }
 

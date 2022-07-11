@@ -23,14 +23,14 @@ void swap(t_node *l_)
 
 void sa(stacks *s)
 {
-	fprintf(stderr, "sa %d & %d\n", s->l_A->data, s->l_A->next->data);
+	// fprintf(stderr, "sa %d & %d\n", s->l_A->data, s->l_A->next->data);
 	writeAction(s, e_sa);
 	swap(s->l_A);
 }
 
 void sb(stacks *s)
 {
-	fprintf(stderr, "sb %d & %d\n", s->l_B->data, s->l_B->next->data);
+	// fprintf(stderr, "sb %d & %d\n", s->l_B->data, s->l_B->next->data);
 	writeAction(s, e_sb);
 	swap(s->l_B);
 }

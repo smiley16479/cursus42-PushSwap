@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-# All credits go to vbrazhni : cheers man !
+# All credits go to vbrazhni : if you read this, Thank you man !
 
 #!/bin/bash
 
@@ -23,7 +23,7 @@ SUM=0
 for i in {1..1000}
 do
 		export ARG=`ruby -e "puts (1..100).to_a.shuffle.join(' ')"`
-		if ./push_swap $ARG | ./checker $ARG | grep -q KO
+		if ./push_swap $ARG | ./checker $ARG | grep -q NOT
 		then
 			echo "Error!"
 			echo $ARG
@@ -32,7 +32,7 @@ do
 		NUMBER="$(./push_swap $ARG | wc -l | sed 's/ //g')"
 		if [ "$NUMBER" -gt "$LIMIT" ]
 			then
-			echo $NUMBER >> $FILE
+			echo "$NUMBER of move" >> $FILE
 			echo $ARG >> $FILE
 		fi
 		if [ "$NUMBER" -gt "$MAX" ]

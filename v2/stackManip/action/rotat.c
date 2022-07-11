@@ -17,7 +17,7 @@ void ra(stacks *s)
 {
 	if (s->l_A)
 	{
-		fprintf(stderr, "ra %d\n", s->l_A->data);
+		// fprintf(stderr, "ra %d\n", s->l_A->data);
 		rotate(&s->l_A);
 		writeAction(s, e_ra);
 	}
@@ -33,7 +33,7 @@ void rb(stacks *s)
 {
 	if (s->l_B)
 	{
-		fprintf(stderr, "rb %d\n", s->l_B->data);
+		// fprintf(stderr, "rb %d\n", s->l_B->data);
 		rotate(&s->l_B);
 		writeAction(s, e_rb);
 	}
@@ -48,7 +48,7 @@ void rr(stacks *s)
 {
 	if (s->l_B && s->l_A)
 	{
-		fprintf(stderr, "rr %d, %d\n", s->l_A->data, s->l_B->data);
+		// fprintf(stderr, "rr %d, %d\n", s->l_A->data, s->l_B->data);
 		writeAction(s, e_rr);
 		rotate(&s->l_A);
 		rotate(&s->l_B);

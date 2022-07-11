@@ -1,7 +1,7 @@
 gen=`../tools/generator.py 10 0 10`
 
 all:
-	gcc *.c */*/*.c  -I. -fsanitize=address -g3 # -I./sortAlgorithm/chunk/ 
+	gcc *.c */*/*.c  -I. -fsanitize=address -g3 -o push_swap # -I./sortAlgorithm/chunk/
 
 gen:
 	export ARG= echo $(gen); \

@@ -94,14 +94,13 @@ int elem_to_keep_gtSort_swap(stacks *s)
 		fprintf(stderr, "\n-------------------\n");
 		free(l_cpy[1]);
 	}
-	fprintf(stderr, "hihest following elem %d\n", l_cpy[0]->data, l_cpy[1]->data, l_cpy[0], l_cpy[1]);
+	// fprintf(stderr, "hihest following elem %d\n", l_cpy[0]->data, l_cpy[1]->data, l_cpy[0], l_cpy[1]);
 
 
-	fprintf(stderr, "Pour CHECK\n");
 	long idx = getMaxFollowedElem(tab, s->size);
 	l_cpy[0] = ft_lstCpy(s->l_A, s->size);
 	l_cpy[0] += ((idx << 32) >> 32);
-	fprintf(stderr, "Pour CHECK begin with elem %d\n", l_cpy[0]->data);
+	// fprintf(stderr, "Pour CHECK begin with elem %d\n", l_cpy[0]->data);
 	j = 0;
 	while (j++ < s->sizeA)
 	{
