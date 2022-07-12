@@ -1,41 +1,6 @@
 #include "utils.h"
 int chunkCmp(int toCmp, int chunkSize, int *chunkSort, int ascending);
 
-void sortSimple_3(stacks *s, t_node **l, char stackID)
-{
-	t_node *n[3] = {*l , (*l)->next, (*l)->next->next};
-	int ID = 0;
-	if (n[0]->data > n[1]->data && n[0]->data < n[2]->data && (ID = 1))
-		swap(*l);
-	else if (n[0]->data > n[1]->data && n[1]->data < n[2]->data && (ID = 2))
-		rotate(l);
-	else if (n[0]->data < n[1]->data && n[0]->data > n[2]->data && (ID = 3))
-		revRotate(l);
-	else if (n[0]->data > n[1]->data && n[1]->data > n[2]->data && (ID = 4))
-	{
-		swap(*l);
-		revRotate(l);
-	}
-	else if (n[0]->data < n[1]->data  && n[1]->data > n[2]->data && (ID = 5))
-	{
-		swap(*l);
-		rotate(l);
-	}
-	// printList(*l, 3);
-	if (stackID == 'A' && (ID == 1 || ID == 4 || ID == 5))
-		writeAction(s, e_sa);
-	if (stackID == 'B' && (ID == 1 || ID == 4 || ID == 5))
-		writeAction(s, e_sb);
-	if (stackID == 'A' && (ID == 2 || ID == 5))
-		writeAction(s, e_ra);
-	if (stackID == 'B' && (ID == 2 || ID == 5))
-		writeAction(s, e_rb);
-	if (stackID == 'A' && (ID == 3 || ID == 4))
-		writeAction(s, e_rra);
-	if (stackID == 'B' && (ID == 3 || ID == 4))
-		writeAction(s, e_rrb);
-}
-
 int nearestPopableBA(stacks *s)
 {
 	int i;

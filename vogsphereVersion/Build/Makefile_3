@@ -1,0 +1,45 @@
+
+# PROJDIR := $(realpath $(CURDIR)/..)
+PROJDIR := ../Sources
+SOURCEDIR := ../Sources
+BUILDDIR := ./
+
+TARGET = check_swap
+BONUS_TARGET = checker
+
+DIRS = main sortAlgorithm stackManip tools
+BONUS_DIRS = Bonus
+SOURCEDIRS = main/main.c sortAlgorithm/gtSort/
+
+
+
+TARGETDIRS = $(foreach dir, $(DIRS), $(addprefix $(BUILDDIR), $(dir)))
+
+# Add this list to VPATH, the place make will look for the source files
+VPATH = $(SOURCEDIRS)
+# Create a list of *.c sources in DIRS
+SOURCES = $(foreach dir,$(SOURCEDIRS),$(wildcard $(dir)/*.c))
+# Define objects for all sources
+OBJS := $(subst $(SOURCEDIR),$(BUILDDIR),$(SOURCES:.c=.o))
+
+all:
+	# echo $(PROJDIR)
+
+%.c:%.o
+	echo $@
+
+directories:
+	@mkdir -p $(TARGETDIRS)
+
+rm_directories:
+	@rm -rf $(TARGETDIRS)
+
+show:
+	# @echo PROJDIR : $(PROJDIR)
+	@echo SOURCEDIR : $(SOURCEDIR)
+	@echo BUILDDIR : $(BUILDDIR)
+	@echo SOURCEDIRS : $(SOURCEDIRS)
+	@echo TARGETDIRS : $(TARGETDIRS)
+	SEP=/;\
+	PSEP = $(strip $(SEP));\
+	echo $(PSEP)

@@ -1,0 +1,94 @@
+gen=`../.tools/generator.py 10 0 10`
+VAR=0
+SRC_DIR= ../Sources/
+OBJ_DIR = Objects
+SRC_BONUS_DIR = src_bonus
+OBJ_BONUS_DIR = obj_bonus
+
+
+
+FILE:=$(foreach dir, $(SRC_DIR), $(dir))
+SRC1 =	main.c \
+		elem2keepSwapFurther.c \
+		gt_sort_BA.c \
+		gt_sort.c \
+		gt_sortUtils.c \
+		push.c \
+		revRotat.c \
+		rotat.c \
+		swap.c \
+		autoSwapCheck.c \
+		initCheck.c \
+		utils_shared.c \
+		utils.c
+# OBJ =  $(OBJ_DIR)/${SRC1:.c=.o} #$(notdir ${SRC1:%.c=%.o}) #
+OBJ =  $(foreach file, ${SRC1:.c=.o}, $(OBJ_DIR)/$(file))
+# OBJS2 = $(notdir ${SRC2:%.c=%.o}) # ${SRC2:%.c=%.o}
+# OBJS3 = ${SRC3:%.c=%.o}
+# OBJS4 = ${SRC4:%.c=%.o}
+# OBJS =  $(foreach file, $(notdir $(SRC)), $(patsubst %.c,%.o,$(file)))
+CFLAG = -fsanitize=address -g3 -Wall -Wextra -Werror
+
+NAME = check_swap
+BONUS_TARGET = checker
+# essai: 
+# 	@echo $(FILE)
+# 	$(SRC)=$(gen)
+# 	echo $(SRC)
+# 	# export $(gen)
+
+vpath %.c $(SRC_DIR)sortAlgorithm/gtSort/:$(SRC_DIR)stackManip/action/:$(SRC_DIR)stackManip/optimisation/:$(SRC_DIR)tools/:$(SRC_DIR)main/
+
+all: $(NAME)
+	@echo regle 1 $@
+	@# gcc $(SRC) -I../Sources/tools -fsanitize=address -g3 -o push_swap # -I./sortAlgorithm/chunk/
+
+myVar:
+	VAR=$(gen)
+
+gen:
+	# export ARG=$(shell `$(gen)`);
+	# echo $(ARG)
+	echo $(VAR)
+
+test:
+	@echo Lauch Vizualiser
+	./a.out $(ARG) |  ../tools/visualizer/visualizer.py $(ARG)
+
+# C'est ça qui fait la regle : "${SRC:.c=.o}"
+$(OBJ_DIR)/%.o : %.c # %.c:%.o #
+	@echo -e regle .c.o: $$\<: $< - $$\@: $@ \\n $(notdir $@)
+	gcc  -c -I../Sources/tools $< -o $@
+	@# @mkdir -p Objects
+# gcc  -c -I../Sources/tools $< -o Objects/$(notdir $@)
+#	@gcc  -c -I../Sources/tools $< -o $@
+	@# echo $< -o $@ \n
+
+$(NAME)	: $(OBJ) #$(OBJS2) $(OBJS3) $(OBJS4)
+	@echo regle 2 $@ $(OBJ)
+	@# @gcc $(OBJS) $(CFLAG) -o $@
+	@# @echo $(OBJS) $(CFLAG) -o $@
+	@# @echo $(OBJS)
+
+bonus:
+	gcc ./Bonus/*.c ./sortAlgorithm/suitSort/suitSortUtils.c initCheck.c utils.c ./stackManip/action/*.c -I. -fsanitize=address -g3 -o checker
+
+clean :
+	rm $(OBJ)
+
+PHONY: bonus
+
+show:
+	@# @echo "SRC_DIR : $(SRC_DIR)\n"
+	@echo "SRC1 :$(foreach file, $(SRC1),\n\t$(file))\n"
+	@echo "OBJS : $(foreach file, $(OBJS),\n\t$(file))\n"
+	@# @echo "SRC_BONUS :$(foreach file, $(SRC_BONUS),\n\t$(file))\n"
+	@# @echo "GEN : $(gen)\n"
+	@# @echo "TEST_patsubst : $(foreach file, $(patsubst %.c,%.o,$(SRC)),\n\t$(file))\n"
+	@# @echo "TEST_basename : $(foreach file, $(basename $(SRC)),\n\t$(file))\n"
+#	@echo "TEST_notdir : $(foreach file, $(notdir $(SRC)),\n\t$(file))\n"
+#	@echo "TEST_notdir_II : $(foreach file, $(notdir $(SRC)),\n\t$(patsubst %.c,%.o,$(file)))\n"
+#	@echo "TEST_notdir_III : $(foreach file, $(notdir $(SRC)),\n\t$(file))\n"
+#	@echo RE ${SRC:%.c=%.o}
+	@echo OBJ $(OBJ)
+	@echo OBJS2 $(OBJS2)
