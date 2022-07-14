@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotat.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/14 11:26:18 by adtheus           #+#    #+#             */
+/*   Updated: 2022/07/14 13:15:26 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 /*
 ** rotate : Shift up all elements of stack a by 1.
 ** The first element becomes the last one.
 */
-void rotate(t_node **l_)
+void	rotate(t_node **l_)
 {
 	if ((*l_))
 		(*l_) = (*l_)->next;
@@ -13,15 +25,14 @@ void rotate(t_node **l_)
 ** ra (rotate a): Shift up all elements of stack a by 1.
 ** The first element becomes the last one.
 */
-void ra(stacks *s)
+void	ra(t_stacks *s)
 {
-	if (s->l_A)
+	if (s->l_a)
 	{
-		// fprintf(stderr, "ra %d\n", s->l_A->data);
-		rotate(&s->l_A);
-		writeAction(s, e_ra);
+		rotate(&s->l_a);
+		write_action(s, e_ra);
 	}
-	else 
+	else
 		printf("cannot perform ra\n");
 }
 
@@ -29,30 +40,28 @@ void ra(stacks *s)
 ** rb (rotate b): Shift up all elements of stack b by 1.
 ** The first element becomes the last one.
 */
-void rb(stacks *s)
+void	rb(t_stacks *s)
 {
-	if (s->l_B)
+	if (s->l_b)
 	{
-		// fprintf(stderr, "rb %d\n", s->l_B->data);
-		rotate(&s->l_B);
-		writeAction(s, e_rb);
+		rotate(&s->l_b);
+		write_action(s, e_rb);
 	}
-	else 
+	else
 		printf("cannot perform rb\n");
 }
 
 /*
 ** rr : ra and rb at the same time.
 */
-void rr(stacks *s)
+void	rr(t_stacks *s)
 {
-	if (s->l_B && s->l_A)
+	if (s->l_b && s->l_a)
 	{
-		// fprintf(stderr, "rr %d, %d\n", s->l_A->data, s->l_B->data);
-		writeAction(s, e_rr);
-		rotate(&s->l_A);
-		rotate(&s->l_B);
+		write_action(s, e_rr);
+		rotate(&s->l_a);
+		rotate(&s->l_b);
 	}
-	else 
+	else
 		printf("cannot perform rr\n");
 }

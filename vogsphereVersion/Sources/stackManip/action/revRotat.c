@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   revRotat.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/14 11:26:16 by adtheus           #+#    #+#             */
+/*   Updated: 2022/07/14 13:15:26 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 /*
 ** reverse rotate: Shift down all elements of stack a by 1.
 ** The last element becomes the first one.
 */
-void revRotate(t_node **l_)
+void	rev_rotate(t_node **l_)
 {
 	if ((*l_))
 		(*l_) = (*l_)->prev;
@@ -14,45 +26,43 @@ void revRotate(t_node **l_)
 ** rra (reverse rotate a): Shift down all elements of stack a by 1.
 ** The last element becomes the first one.
 */
-void rra(stacks *s)
+void	rra(t_stacks *s)
 {
-	if (s->l_A)
+	if (s->l_a)
 	{
-		// fprintf(stderr, "rra %d\n", s->l_A->data);
-		revRotate(&s->l_A);
-		writeAction(s, e_rra);
+		rev_rotate(&s->l_a);
+		write_action(s, e_rra);
 	}
-	else 
+	else
 		printf("cannot perform rra\n");
 }
+
 /*
 ** rrb (reverse rotate b): Shift down all elements of stack b by 1.
 ** The last element becomes the first one.
 */
-void rrb(stacks *s)
+void	rrb(t_stacks *s)
 {
-	if (s->l_B)
+	if (s->l_b)
 	{
-		// fprintf(stderr, "rrb %d\n", s->l_B->data);
-		revRotate(&s->l_B);
-		writeAction(s, e_rrb);
+		rev_rotate(&s->l_b);
+		write_action(s, e_rrb);
 	}
-	else 
+	else
 		printf("cannot perform rrb\n");
 }
 
 /*
 ** rrr : rra and rrb at the same time.
 */
-void rrr(stacks *s)
+void	rrr(t_stacks *s)
 {
-	if (s->l_A && s->l_B)
+	if (s->l_a && s->l_b)
 	{
-		// fprintf(stderr, "rrr A:%d, B:%d\n", s->l_A->data, s->l_B->data);
-		writeAction(s, e_rrr);
-		revRotate(&s->l_A);
-		revRotate(&s->l_B);
+		write_action(s, e_rrr);
+		rev_rotate(&s->l_a);
+		rev_rotate(&s->l_b);
 	}
-	else 
+	else
 		printf("cannot perform rrr\n");
 }

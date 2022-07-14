@@ -19,21 +19,7 @@ SRC =	main.c \
 		utils.c \
 		utilss.c
 
-SRC_BONUS =	utilss.c \
-			initCheck.c \
-			utils_shared.c \
-			utils.c \
-			swap.c \
-			rotat.c \
-			push.c \
-			revRotat.c \
-			bonus.c \
-			get_next_line_utils.c \
-			get_next_line.c \
-			gnl_2000.c \
-			bonus_utils.c
-
-# $(shell find ../Sources/tools ../Sources/stackManip/action ../Sources_Bonus/ -type f -name \*.c -printf "%f ") 
+SRC_BONUS = $(shell find ../Sources/tools ../Sources/stackManip/action ../Sources_Bonus/ -type f -name \*.c -printf "%f ") 
 
 # OBJ =  $(OBJ_DIR)/${SRC:.c=.o} #$(notdir ${SRC:%.c=%.o}) #
 OBJ =  $(foreach file, ${SRC:.c=.o}, $(OBJ_DIR)/$(file))
@@ -44,7 +30,7 @@ IFLAG = -I../Sources/tools -I../Sources_Bonus
 NAME = push_swap
 BONUS_TARGET = checker
 
-vpath %.c $(SRC_DIR)sortAlgorithm/:$(SRC_DIR)stackManip/action/: \
+vpath %.c $(SRC_DIR)sortAlgorithm/gtSort/:$(SRC_DIR)stackManip/action/: \
 			$(SRC_DIR)stackManip/optimisation/:$(SRC_DIR)tools/:$(SRC_DIR)main/:$(SRC_BONUS_DIR)
 
 all: $(NAME)

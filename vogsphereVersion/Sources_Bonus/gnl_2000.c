@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_2000.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 18:09:46 by adtheus           #+#    #+#             */
-/*   Updated: 2020/11/07 23:50:09 by user42           ###   ########.fr       */
+/*   Updated: 2022/07/14 13:59:55 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,18 @@ char	**gnl_2000(char **str_strs, char *str)
 	if (str_strs != NULL)
 		while (str_strs[strs_num])
 			++strs_num;
-	if (!(to_return = (char**)malloc(sizeof(char *) * (++strs_num + 1))))
+	to_return = (char **)malloc(sizeof(char *) * (++strs_num + 1));
+	if (!to_return)
 		return (NULL);
 	to_return[strs_num] = NULL;
 	i = -1;
 	while (++i < strs_num)
+	{
 		if (i == strs_num - 1)
 			to_return[i] = str;
 		else
 			to_return[i] = str_strs[i];
+	}
 	if (str_strs != NULL)
 		free(str_strs);
 	return (to_return);

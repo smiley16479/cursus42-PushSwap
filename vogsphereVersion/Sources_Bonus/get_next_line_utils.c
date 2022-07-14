@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 18:53:03 by adtheus           #+#    #+#             */
-/*   Updated: 2019/11/05 15:53:40 by adtheus          ###   ########.fr       */
+/*   Updated: 2022/07/14 13:28:36 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	void *original_dest;
+	void	*original_dest;
 
 	if (!dst && !src)
 		return (NULL);
@@ -34,9 +34,9 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	while (len--)
 	{
 		if (src < dst)
-			((unsigned char*)dst)[len] = ((unsigned char*)src)[len];
+			((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
 		else
-			*((unsigned char*)dst++) = *((unsigned char*)src++);
+			*((unsigned char *)dst++) = *((unsigned char *)src++);
 	}
 	return (original_dest);
 }

@@ -1,32 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 09:51:50 by adtheus           #+#    #+#             */
+/*   Updated: 2022/07/14 13:15:26 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
-void printPTR(stacks *s)
+int	main(int ac, char *av[])
 {
-	fprintf(stderr, "%30s %20p\n", "s.l_A : ", &(s->l_A));
-	fprintf(stderr, "%30s %20p\n", "s.l_A : ", &(s));
+	t_stacks	s;
 
-	// DS le main
-	// fprintf(stderr, "%30s %20p\n","MAIN s.l_A : ", &(s.l_A));
-	// fprintf(stderr, "%30s %20p\n","MAIN s.l_A : ", &(s));
-	// printPTR(&s);
-}
-
-int main(int ac, char *av[])
-{
-	stacks s;
 	init(--ac, ++av, &s);
-	// if (isSorted(&s)) // si dejà triée ne fait rien
-	// 	return (0);
-
-	// elem_to_keep_gtSort(&s);
-	gtSort_Family_Algorithm(&s);
-
-
-	// printStacks(s);
-
-	readAction(&s);
+	gt_sort_swap_further(&s);
+	read_action(&s);
 	free(s.action);
-	free(s.head_A);
-	free(s.tackSort);
+	free(s.head_a);
+	free(s.tack_sort);
 	return (0);
 }
